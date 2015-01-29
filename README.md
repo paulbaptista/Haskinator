@@ -12,7 +12,9 @@ Luego ejecute *Haskinator* en consola con : `./Haskinaror`
 *Usando el poco poder que aún le quedaba, el gran Haskinator se comunica por medio de la telepatía con los profesores del Laboratorio de Lenguajes en la Universidad Simón Bolívar, para que  encomienden a sus estudiantes la creación de un programa que logre simular sus afamadas capacidades de predicción.*
 
 
+
 * Código fuente de nuestra implementación de **Haskinator**, que satisface los requerimientos establecidos para la entrega del mismo como primer proyecto de **Laboratorio de Lenguajes de Programación** (*CI3661*)
+
 
 * Version 0.1
 
