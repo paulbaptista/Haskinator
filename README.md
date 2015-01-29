@@ -19,6 +19,6 @@ Luego ejecute *Haskinator* en consola con : `./Haskinaror`
 
 ### Contactanos ###
 
-*adolfo@ldc.usb.ve
+* adolfo@ldc.usb.ve
 
-*paul@ldc.usb.ve
+* paul@ldc.usb.ve
