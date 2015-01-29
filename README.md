@@ -2,7 +2,7 @@
 
 Compile *Haskinator.hs* usando la versión más reciente de **GHC** ejecutando: `ghc Haskinator.hs`
 
-Luego ejecute *Haskinator* en consola con : `./Haskinaror`
+Luego ejecute *Haskinator* en consola con : `./Haskinator`
 
 ### En qué consiste este repositorio? ###
 >*En las profundidades del bosque de los mil y un monads, en la misteriosa cuna del gran río Curry, habita entre paredes de piedra el poderoso oráculo Haskinator. Con su vasto conocimiento, Haskinator es capaz de adivinar los pensamientos de aquellos que lo visitan, sin más que unas pocas y precisas preguntas. El misterioso oráculo se ha hecho conocido y afamado por su gran poder, sorprendiendo y maravillando a cada viajero con la suerte de presenciarlo.*
