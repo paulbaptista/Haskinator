@@ -1,13 +1,14 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Compile *Haskinator.hs* usando la versión más reciente de **GHC** ejecutando: `ghc Haskinator.hs`
 
-### What is this repository for? ###
+Luego ejecute *Haskinator* en consola con : `./Haskinaror`
 
-* 
+### En qué consiste este repositorio? ###
 
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Código fuente de nuestra implementación de **Haskinator**, que satisface los requerimientos establecidos para la entrega del mismo como primer proyecto de **Laboratorio de Lenguajes de Programación** (*CI3661*)
+
+* Version 0.1
 
 ### Contactanos ###
 
