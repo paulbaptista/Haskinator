@@ -14,10 +14,37 @@ module Oraculo
     where 
 
 import Data.Maybe
+import System.IO
 
 data Oraculo = Prediccion [Char] | Pregunta ([Char],Oraculo,Oraculo)
-                                                                deriving Show
+                                                                
 
+instance Show Oraculo where
+  show (Prediccion str) = "Prediccion: " ++ "\"" ++ str ++ "\""  ++ "\n"
+  show (Pregunta (str,o1,o2)) = "Pregunta: " ++ "\"" ++ str ++ "\"" ++ "\n" ++ show o1 ++ show o2
+ 
+ 
+instance Read Oraculo where
+  readsPrec _ r = readsOraculo r
+  
+readsOraculo :: ReadS Oraculo
+
+readsOraculo ('P':'r':'e':'g':'u':'n':'t':'a':':':s)       =  [(Pregunta (x,o1,o2),z) | (x, '\n':t) <- reads s,
+																						(o1, '\n':u) <- readsOraculo t,
+																						(o2, z) <- readsOraculo u] 
+readsOraculo ('P':'r':'e':'d':'i':'c':'c':'i':'o':'n':':':s)       =  [(Prediccion x, t) | (x,t) <- reads s ] 
+
+-- Formas mas "bonita" que no logre hacer funcionar
+{-readsOraculo s       =  [(Pregunta (x,o1,o2),z) | (":", t) <- lex s,
+												  (x, '\n':u) <- reads t,
+													(y,v) <- lex u,
+													(o1,w) <- readsOraculo y,
+													(a,b) <- lex v,
+													(o2, z) <- readsOraculo a] 
+										++  [(Prediccion x, t) | (x,t) <- reads s ]-} 
+                                           
+                
+                
 p1 = Prediccion "Se llama Leyda"
 p2 = Prediccion "Se llama Jose"
 p3 = Prediccion "No se quien es"
@@ -90,3 +117,16 @@ obtenerEstadistica o1 =
 
             foldr (:) (map (+1) (obtenerEstadistica' o1))
                       (map (+1) (obtenerEstadistica' o2))
+                      
+escribir o = do
+		  nombre <- getLine
+		  handle <- openFile nombre WriteMode
+		  hPutStr handle (show o)
+		  hClose handle
+		  
+
+leer nombre = do
+			  handle <- openFile nombre ReadMode
+			  contents <- hGetContents handle
+			  return $ contents
+	  
