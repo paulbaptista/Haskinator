@@ -18,6 +18,7 @@ import Data.Maybe
 data Oraculo = Prediccion [Char] | Pregunta ([Char],Oraculo,Oraculo)
                                                                 deriving Show
 
+
 p1 = Prediccion "Se llama Leyda"
 p2 = Prediccion "Se llama Jose"
 p3 = Prediccion "No se quien es"
