@@ -32,38 +32,51 @@ crearPrediccion :: [Char] -> Oraculo
 crearPrediccion str = Prediccion str
 
 crearPregunta :: [Char] -> Oraculo -> Oraculo -> Oraculo
-crearPregunta str o1 o2 = Pregunta (str, o1, o2)
+crearPregunta str o1 o2 =
+    Pregunta (str, o1, o2)
 
 prediccion :: Oraculo -> [Char]
-prediccion (Prediccion str) = str
-prediccion (Pregunta str) = error "pepe"
+prediccion (Prediccion str) =
+    str
+prediccion (Pregunta str) =
+    error "pepe"
 
 pregunta :: Oraculo -> [Char]
-pregunta (Prediccion o1) = error "pepe"
-pregunta (Pregunta  (str,o1,o2)) = str
+pregunta (Prediccion o1) =
+    error "pepe"
+pregunta (Pregunta  (str,o1,o2)) =
+    str
 
 positivo :: Oraculo -> Oraculo
-positivo (Prediccion o1) = error "pepe"
-positivo (Pregunta  (str,o1,o2)) = o1
+positivo (Prediccion o1) =
+    error "pepe"
+positivo (Pregunta  (str,o1,o2)) =
+    o1
 
 negativo :: Oraculo -> Oraculo
-negativo (Prediccion o1) = error "pepe"
-negativo (Pregunta  (str,o1,o2)) = o2
+negativo (Prediccion o1) = 
+    error "pepe"
+negativo (Pregunta  (str,o1,o2)) = 
+    o2
 
 
 obtenerCadena :: Oraculo -> [Char] -> Maybe [([Char],Bool)]
 obtenerCadena (Prediccion orac) pred 
-    | orac == pred = Just []
-    | otherwise = Nothing 
+    | orac == pred =
+        Just []
+    | otherwise = 
+        Nothing 
 
 obtenerCadena (Pregunta (preg,o1,o2)) pred =
     aux (obtenerCadena o1 pred) (obtenerCadena o2 pred) preg
         where
         aux cad1 cad2 preg
-            | isJust cad1 = Just ((preg,True):fromJust(cad1))
+            | isJust cad1 = 
+                Just ((preg,True):fromJust(cad1))
             | (isNothing cad1) && (isJust cad2) =
                 Just ((preg,False):fromJust(cad2))
-            | otherwise = Nothing
+            | otherwise = 
+                Nothing
 
 
 obtenerEstadistica :: Oraculo -> (Int,Int,Float)
