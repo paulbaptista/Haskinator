@@ -34,7 +34,7 @@ menu orac str =
         (x:xs) <- getLine
         if (xs /= []) then
             do
-                menu orac "Entrada mal formada"
+                menu orac "Entrada mal formada."
         else
             case x of 
 
@@ -45,7 +45,7 @@ menu orac str =
                 '5' -> consPreg orac
                 '6' -> consEst orac
                 'q' -> exitSuccess
-                _   -> menu orac "Entrada mal formada"
+                _   -> menu orac "Entrada mal formada."
 
 
 cls :: IO()
@@ -65,31 +65,61 @@ nuevoOrac =
 predecir :: Maybe Oraculo -> IO()
 predecir Nothing =
     menu Nothing $ "El oráculo está vacío, "
-                    ++ "no puede hacer una predicción."
+                    ++"no puede hacer una predicción."
 
 predecir (Just orac) =
-    predecir' orac
+    predecir' orac Nothing Nothing orac
     where
-        predecir' ()
-
-    do
-        putStrLn (prediccion orac)
-        putStrLn "Es correcta?"
-        putStrLn "1) Sí"
-        putStrLn "2) No"
-
-        (x:xs) <- getLine
-        if (xs /= []) then
+        predecir' (Prediccion str) padre est orig =
             do
-                info "Entrada mal formada"
-        else
-            case x of
-                '1' -> nuevoOrac
-                '2' -> predecir (Just orac)
-                _   -> info "Entrada mal formada"
+                putStrLn (prediccion orac)
+                putStrLn "Es correcta?"
+                putStrLn "Si/No"
+
+                xs <- getLine
+                case xs of
+                    "Si" -> menu (Just orig) $ "Excelente!! Gracias por "
+                                                ++"Jugar con Haskinator"
+
+                    "No" -> do
+                                putStrLn $ "Qué mal!! Predicción errada.\n"
+                                        ++"Por favor introduce la respuesta "
+                                        ++"que esperabas"
+                                pred <- getLine
+                                putStrLn $ "\nPor favor introduce una pregunta "
+                                        ++"que distinga la respuesta que "
+                                        ++"esperabas de la prediccion "
+                                        ++"obtenida."
+                                preg <- getLine
+
+                                menu    (Just   (crearPregunta  (preg
+                                                                (crearPrediccion pred)
+                                                                orig )
+                                                )
+                                        )
+                                        ("Gracias por colaborar con "
+                                                        ++"Haskinator")
+
+                    _   ->  do
+                                info "Entrada mal formada.\n"
+                                predecir' orac padre est orig
 
 
---predecir (Just (Pregunta orac))  =   putStr "\nopt2"
+        predecir' (Pregunta (preg,o1,o2)) padre est orig =
+            do
+                putStrLn (pregunta orac)
+                putStrLn "Si/No"
+
+                x <- getLine
+                case x of
+                    "Si" -> predecir' o1 (Just orac) (Just True) orig
+
+                    "No" -> predecir' o2 (Just orac) (Just False) orig
+
+                    _   ->  do
+                                info "Entrada mal formada.\n"
+                                predecir' orac padre orig
+
 
 persistir orac  =   putStr "\nopt3"
 
