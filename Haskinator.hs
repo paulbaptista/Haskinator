@@ -1,5 +1,7 @@
 import Oraculo
 import System.Exit
+import Data.Maybe
+
 
 
 main :: IO()
@@ -41,7 +43,7 @@ menu orac str =
                 '1' -> nuevoOrac
                 '2' -> predecir orac
                 '3' -> persistir orac
-                '4' -> cargar orac
+                '4' -> cargar
                 '5' -> consPreg orac
                 '6' -> consEst orac
                 'q' -> exitSuccess
@@ -68,63 +70,146 @@ predecir Nothing =
                     ++"no puede hacer una predicción."
 
 predecir (Just orac) =
-    predecir' orac Nothing Nothing orac
+    predecir' orac []
     where
-        predecir' (Prediccion str) padre est orig =
+        predecir' (Prediccion str) ruta =
             do
-                putStrLn (prediccion orac)
+                putStrLn $ prediccion (Prediccion str)
                 putStrLn "Es correcta?"
                 putStrLn "Si/No"
 
                 xs <- getLine
                 case xs of
-                    "Si" -> menu (Just orig) $ "Excelente!! Gracias por "
-                                                ++"Jugar con Haskinator"
+                    "Si" ->
+                        menu (Just orac) $ "Excelente!! Gracias por "
+                                                    ++"Jugar con Haskinator"
 
-                    "No" -> do
-                                putStrLn $ "Qué mal!! Predicción errada.\n"
-                                        ++"Por favor introduce la respuesta "
-                                        ++"que esperabas"
-                                pred <- getLine
-                                putStrLn $ "\nPor favor introduce una pregunta "
-                                        ++"que distinga la respuesta que "
-                                        ++"esperabas de la prediccion "
-                                        ++"obtenida."
-                                preg <- getLine
+                    "No" -> 
+                        do
+                            putStrLn $ "Qué mal!! Predicción errada.\n"
+                                    ++"Por favor introduce la respuesta "
+                                    ++"que esperabas"
+                            pred <- getLine
+                            putStrLn $ "\nPor favor introduce una pregunta "
+                                    ++"que distinga la respuesta que "
+                                    ++"esperabas de la prediccion "
+                                    ++"obtenida."
+                            preg <- getLine
 
-                                menu    (Just   (crearPregunta  (preg
-                                                                (crearPrediccion pred)
-                                                                orig )
+                            menu    ( Just (agregarPreg
+                                            (crearPregunta
+                                                preg
+                                                (crearPrediccion pred)
+                                                (Prediccion str)
                                                 )
-                                        )
-                                        ("Gracias por colaborar con "
-                                                        ++"Haskinator")
+                                            orac
+                                            (reverse ruta)
+                                            )
+                                    )
+                                    ("Gracias por ayudar a mejorar "
+                                    ++"Haskinator!")
 
-                    _   ->  do
-                                info "Entrada mal formada.\n"
-                                predecir' orac padre est orig
+                    _   ->  
+                        do
+                            info "Entrada mal formada.\n"
+                            predecir' (Prediccion str) ruta
 
 
-        predecir' (Pregunta (preg,o1,o2)) padre est orig =
+        predecir' (Pregunta preg) ruta =
             do
-                putStrLn (pregunta orac)
+                putStrLn $ pregunta (Pregunta preg)
                 putStrLn "Si/No"
 
                 x <- getLine
                 case x of
-                    "Si" -> predecir' o1 (Just orac) (Just True) orig
+                    "Si" -> predecir' (positivo (Pregunta preg)) (True:ruta)
 
-                    "No" -> predecir' o2 (Just orac) (Just False) orig
+                    "No" -> predecir' (negativo (Pregunta preg)) (False:ruta)
 
                     _   ->  do
                                 info "Entrada mal formada.\n"
-                                predecir' orac padre orig
+                                predecir' (Pregunta preg) ruta
 
 
-persistir orac  =   putStr "\nopt3"
+agregarPreg (Pregunta preg) (Prediccion pred) xs 
+    | xs == [] = (Pregunta preg)
+    | otherwise = error "pepe"
 
-cargar orac     =   putStr "\nopt4"
+agregarPreg (Pregunta preg) (Pregunta orig) (act:resto)
+    | act =
+        crearPregunta
+            ( pregunta (Pregunta orig) )
+            ( agregarPreg (Pregunta preg)
+                (positivo (Pregunta orig))
+                resto )
+            ( negativo (Pregunta orig) )
 
-consPreg orac   =   putStr "\nopt5"
+    | otherwise = 
+        crearPregunta
+            ( pregunta (Pregunta orig) )
+            ( positivo (Pregunta orig) )
+            ( agregarPreg (Pregunta preg)
+                (negativo (Pregunta orig))
+                resto )
 
-consEst orac    =   putStr "1"
+persistir Nothing = menu Nothing "Oráculo vacio, no s."
+persistir (Just orac)  =
+    do
+        putStrLn $ "Inserte el nombre del archivo el "
+                    ++ "que se guardará el oraculo actual:"
+        filename <- getLine
+        writeFile filename (show orac)
+        menu (Just orac) "Oráculo guardado exitosamente."
+
+cargar =
+    do
+        putStrLn $ "Inserte el nombre del archivo del cual "
+                    ++"se cargará el oráculo:"
+        --filename <- getLine
+        --str <- readFile filename
+        --orac <- read str
+        --menu (Just orac) "Oráculo cargado exitosamente."
+
+
+consPreg (Just orac) =
+    do
+        putStrLn "Inserte pred1:"
+        pred1 <- getLine
+        putStrLn "Inserte pred2:"
+        pred2 <- getLine
+
+        compCad orac pred1 pred2
+
+compCad orac pred1 pred2 =
+    let
+        cad1 = obtenerCadena orac pred1
+        cad2 = obtenerCadena orac pred2
+    in
+        if isNothing cad1 || isNothing cad2 then
+            menu  (Just orac) "Consulta inválida."
+        else
+            let
+                resto = foldl fun (fromJust cad1) (fromJust cad2)
+                    where
+                        fun [x] y =
+                            if fst x == fst y then
+                                [x]
+                            else
+                                undefined
+
+                        fun (x:y:xs) z =
+                            if fst y == fst z then
+                                (y:xs)
+                            else
+                                (x:y:xs)
+            in
+                menu (Just orac) ("La pregunta crucial es:"
+                                    ++ fst (head resto) )
+
+
+consEst Nothing =
+        putStrLn "Consulta inválida, oráculo vacío."
+
+consEst (Just orac) =
+        menu (Just orac) ("(minimo,maximo,promedio) = \n\t"
+                  ++ show (obtenerEstadistica orac))
