@@ -9,7 +9,6 @@ module Oraculo
         , negativo
         , obtenerCadena
         , obtenerEstadistica
-        , q1
     )
     where 
 
@@ -41,16 +40,6 @@ readsOraculo ('P':'r':'e':'d':'i':'c':'c':'i':'o':'n':':':s)       =  [(Predicci
 													(a,b) <- lex v,
 													(o2, z) <- readsOraculo a] 
 										++  [(Prediccion x, t) | (x,t) <- reads s ]-} 
-                                           
-p1 = Prediccion "Se llama Leyda"
-p2 = Prediccion "Se llama Jose"
-p3 = Prediccion "No se quien es"
-p4 = Prediccion "Es tu hermano"
-
-q1 = Pregunta ("Es tu mama?",p1,q2)
-q2 = Pregunta("Es tu papa?",p2,q3)
-q3 = Pregunta ("Es un familiar?",p2,p3)
-
 
 crearPrediccion :: [Char] -> Oraculo
 crearPrediccion str = Prediccion str
@@ -114,4 +103,3 @@ obtenerEstadistica o1 =
 
             foldr (:) (map (+1) (obtenerEstadistica' o1))
                       (map (+1) (obtenerEstadistica' o2))
-		  

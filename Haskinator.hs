@@ -4,6 +4,21 @@ import Data.Maybe
 import System.IO
 
 
+programName = "\x1b[32m Haskinator\x1b[0m"
+
+cls :: IO()
+cls = putStr "\ESC[2J"
+
+info :: [Char] -> IO() 
+info str =
+    putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
+
+clsInfo :: [Char] -> IO()
+clsInfo str =
+    do
+        cls
+        info str
+
 
 main :: IO()
 main =
@@ -17,8 +32,7 @@ menu orac str =
     do
         cls
         putStr "\x1b[1;31m"
-        putStr "\n\nBienvenido a: "
-        putStr "\x1b[32m Haskinator\x1b[0m\n\n"
+        putStr $ "\n\nBienvenido a: " ++ programName ++ "\n\n"
             
         putStrLn "Posee las siguientes opciones de interacción:\n"
         putStrLn "1) Crear un oraculo nuevo."
@@ -50,14 +64,6 @@ menu orac str =
                 _   -> menu orac "Entrada mal formada."
 
 
-cls :: IO()
-cls = putStr "\ESC[2J"
-
-info :: [Char] -> IO() 
-info str =
-    putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
-
-
 nuevoOrac :: IO()
 nuevoOrac =
     do
@@ -69,48 +75,46 @@ predecir Nothing =
     menu Nothing $ "El oráculo está vacío, "
                     ++"no puede hacer una predicción."
 
+--NO TENGO NADA, AGRÉGAME ALGO
+--AUN NO SË NADA. QUÉ querias adivinar?
+
 predecir (Just orac) =
     predecir' orac []
     where
         predecir' (Prediccion str) ruta =
             do
-                cls
-                info $ prediccion (Prediccion str)
-                       ++ "\nEs correcta?"
-                putStrLn "Si/No\n"
+                clsInfo $ prediccion (Prediccion str)
+                            ++ "\nEs correcta?"
+                putStrLn "s/n\n"
 
                 xs <- getLine
                 case xs of
-                    "Si" ->
+                    "s" ->
                         menu (Just orac) $ "Gracias por Jugar con putStr"
-                                            ++"\x1b[32m Haskinator\x1b[0m"
+                                            ++ programName
 
-                    "No" -> 
+                    "n" -> 
                         do
-                            cls
-                            info $ "\nPredicción errada.\n"
+                            clsInfo $ "\nPredicción errada.\n"
                                     ++"Por favor introduzca la respuesta "
                                     ++"que esperaba:"
                             pred <- getLine
-                            cls
-                            info $ "\nPor favor introduce una pregunta "
+
+                            clsInfo $ "\nPor favor introduce una pregunta "
                                     ++"que distinga la respuesta que "
                                     ++"esperabas de la prediccion "
                                     ++"obtenida."
                             preg <- getLine
 
-                            menu    ( Just (agregarPreg
-                                            (crearPregunta
-                                                preg
-                                                (crearPrediccion pred)
-                                                (Prediccion str)
-                                                )
-                                            orac
-                                            (reverse ruta)
-                                            )
-                                    )
+                            menu    ( Just  (agregarPreg 
+                                                ( crearPregunta
+                                                    preg
+                                                    (crearPrediccion pred)
+                                                    (Prediccion str) )
+                                                orac
+                                                (reverse ruta) ) )
                                     ("Gracias por ayudar a mejorar "
-                                    ++"Haskinator!")
+                                    ++programName++"!")
 
                     _   ->  
                         do
@@ -123,13 +127,13 @@ predecir (Just orac) =
             do
                 cls
                 info $ pregunta (Pregunta preg)
-                putStrLn "Si/No\n"
+                putStrLn "s/n\n"
 
                 x <- getLine
                 case x of
-                    "Si" -> predecir' (positivo (Pregunta preg)) (True:ruta)
+                    "s" -> predecir' (positivo (Pregunta preg)) (True:ruta)
 
-                    "No" -> predecir' (negativo (Pregunta preg)) (False:ruta)
+                    "n" -> predecir' (negativo (Pregunta preg)) (False:ruta)
 
                     _   ->  do
                                 cls
@@ -139,7 +143,7 @@ predecir (Just orac) =
 
 agregarPreg (Pregunta preg) (Prediccion pred) xs 
     | xs == [] = (Pregunta preg)
-    | otherwise = error "pepe"
+    | otherwise = error "Esto no debería suceder.s"
 
 agregarPreg (Pregunta preg) (Pregunta orig) (act:resto)
     | act =
