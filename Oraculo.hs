@@ -114,15 +114,4 @@ obtenerEstadistica o1 =
 
             foldr (:) (map (+1) (obtenerEstadistica' o1))
                       (map (+1) (obtenerEstadistica' o2))
-                      
-escribir o = do
-		  nombre <- getLine
-		  handle <- openFile nombre WriteMode
-		  hPutStr handle (show o)
-		  hClose handle
 		  
-
-leer nombre = do
-			  handle <- openFile nombre ReadMode
-			  contents <- hGetContents handle
-			  return $ contents
