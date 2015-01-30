@@ -65,6 +65,7 @@ obtenerCadena (Pregunta (preg,o1,o2)) pred =
                 Just ((preg,False):fromJust(cad2))
             | otherwise = Nothing
 
+
 obtenerEstadistica :: Oraculo -> (Int,Int,Float)
 obtenerEstadistica o1 = 
     let x = obtenerEstadistica' o1
