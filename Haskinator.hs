@@ -67,7 +67,11 @@ predecir Nothing =
     menu Nothing $ "El oráculo está vacío, "
                     ++ "no puede hacer una predicción."
 
-predecir (Just orac) = 
+predecir (Just orac) =
+    predecir' orac
+    where
+        predecir' ()
+
     do
         putStrLn (prediccion orac)
         putStrLn "Es correcta?"
