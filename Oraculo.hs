@@ -14,6 +14,8 @@ module Oraculo
 
 import Data.Maybe
 import System.IO
+import Control.Applicative
+import Control.Monad
 
 data Oraculo = Prediccion [Char] | Pregunta ([Char],Oraculo,Oraculo)
 
@@ -85,15 +87,9 @@ obtenerCadena (Prediccion orac) pred
         Nothing 
 
 obtenerCadena (Pregunta (preg,o1,o2)) pred =
-    aux (obtenerCadena o1 pred) (obtenerCadena o2 pred) preg
-        where
-            aux cad1 cad2 preg
-                | isJust cad1 = 
-                    Just ((preg,True):fromJust(cad1))
-                | (isNothing cad1) && (isJust cad2) =
-                    Just ((preg,False):fromJust(cad2))
-                | otherwise = 
-                    Nothing
+     (liftM ((preg,True):) (obtenerCadena o1 pred))
+     <|>
+     (liftM ((preg,False):)) (obtenerCadena o2 pred)
 
 obtenerEstadistica :: Oraculo -> (Int,Int,Float)
 obtenerEstadistica o1 = 
