@@ -1,7 +1,6 @@
 import Oraculo
 import System.Exit
 import Data.Maybe
-import System.IO
 
 --  Función principal del programa
 main :: IO()
@@ -170,6 +169,9 @@ agregarPreg (Pregunta preg) (Pregunta orig) (act:resto)
                 (negativo $ Pregunta orig)
                 resto )
 
+--  Guarda el estado actual del Oráculo en un archivo a especificar por el
+-- usuario.
+persistir :: Maybe Oraculo -> IO()
 persistir Nothing = menu Nothing "Oráculo vacio."
 persistir (Just orac)  =
     do
@@ -180,6 +182,8 @@ persistir (Just orac)  =
         writeFile filename (show orac)
         menu (Just orac) "Oráculo guardado exitosamente."
 
+--  Carga un Oráculo a partir de un archivo a especificar por el usuario.
+cargar :: IO()
 cargar =
     do
         cls
@@ -189,7 +193,9 @@ cargar =
         str <- readFile filename
         menu (Just (read str)) "Oráculo cargado exitosamente."
 
-
+--  Función que recibe dos posibles predicciones y si existen en el Oráculo
+-- devuelve la pregunta más cercana ancestro común de ambas.
+consPreg :: Maybe Oraculo -> IO()
 consPreg Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
@@ -226,6 +232,9 @@ compCad orac pred1 pred2 =
                 menu (Just orac) $ "La pregunta crucial es: "
                                     ++ fst (head resto)
 
+--  Pregunta que a partir del Oráculo recibido, imprime las estadísticas del
+-- mismo
+consEst :: Maybe Oraculo -> IO()
 consEst Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
