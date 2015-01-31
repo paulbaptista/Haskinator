@@ -116,7 +116,7 @@ predecir (Just orac) =
                             let newPred = crearPrediccion pred
                                 newPreg = crearPregunta
                                             strPreg
-                                            newPreg
+                                            newPred
                                             $ Prediccion str
                                 newOrac = Just $ agregarPreg
                                                  newPreg orac
