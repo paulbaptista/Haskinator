@@ -3,30 +3,36 @@ import System.Exit
 import Data.Maybe
 import System.IO
 
-
-programName = "\x1b[32m Haskinator\x1b[0m"
-
-cls :: IO()
-cls = putStr "\ESC[2J"
-
-info :: [Char] -> IO() 
-info str =
-    putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
-
-clsInfo :: [Char] -> IO()
-clsInfo str =
-    do
-        cls
-        info str
-
-
+--  Función principal del programa
 main :: IO()
 main =
     do
         cls
         menu Nothing ""
 
+--  Nombre del programa.
+programName = "\x1b[32m Haskinator\x1b[0m"
 
+--  Función IO() que hace clean de la pantalla
+cls :: IO()
+cls = putStr "\ESC[2J"
+
+--  Función IO() Que imprime un String dado en color amarillo D:
+info :: [Char] -> IO() 
+info str =
+    putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
+
+--  Función IO() que limpia la pantalla y luego imprime el String recibido
+clsInfo :: [Char] -> IO()
+clsInfo str =
+    do
+        cls
+        info str
+
+--  Función IO() que despliega un menu que informa al usuario de las opciones 
+-- que tiene disponibles para interactuar con el programa.
+--  Recibe como parametros un Oraculo y un String. El primero para usarlo como 
+-- ser usado como tal y el segundo para ser impreso como mensaje informativo.
 menu :: (Maybe Oraculo) -> [Char] -> IO()
 menu orac str =
     do
@@ -47,36 +53,37 @@ menu orac str =
         putStrLn "Ingrese el número de la opción que desea ejecutar"
         putStrLn "o presione 'q' para salir\n"
 
-        (x:xs) <- getLine
-        if (xs /= []) then
-            do
-                menu orac "Entrada mal formada."
-        else
-            case x of 
+        xs <- getLine
+        case xs of 
+            "1" -> nuevoOrac
+            "2" -> predecir orac
+            "3" -> persistir orac
+            "4" -> cargar
+            "5" -> consPreg orac
+            "6" -> consEst orac
+            "q" -> exitSuccess
+            _   -> menu orac "Entrada mal formada."
 
-                '1' -> nuevoOrac
-                '2' -> predecir orac
-                '3' -> persistir orac
-                '4' -> cargar
-                '5' -> consPreg orac
-                '6' -> consEst orac
-                'q' -> exitSuccess
-                _   -> menu orac "Entrada mal formada."
-
-
+--  Función que lanza el menú de interacción con un Oráculo "vacio".
 nuevoOrac :: IO()
 nuevoOrac =
     do
         menu Nothing "Nuevo Oraculo creado, actualmente vacio."
 
-
+--  Función que interactua con el usuario usando el Oráculo recibido para hacer
+-- una predicción.
+--  Si el Oráculo recibido no posee la predicción, se pide información al 
+-- usuario para agregarla al mismo.
 predecir :: Maybe Oraculo -> IO()
 predecir Nothing =
-    menu Nothing $ "El oráculo está vacío, "
-                    ++"no puede hacer una predicción."
+    do 
+        clsInfo $ "El oráculo está vacío, no puede hacer una predicción."
+                    ++"Por favor introducea la respuesta que esperabas:"
+        pred <- getLine
 
---NO TENGO NADA, AGRÉGAME ALGO
---AUN NO SË NADA. QUÉ querias adivinar?
+        let newPred = Just $ crearPrediccion pred
+
+        menu newPred $ "Gracias por ayudar a mejorar a "++programName++"!"
 
 predecir (Just orac) =
     predecir' orac []
@@ -84,42 +91,42 @@ predecir (Just orac) =
         predecir' (Prediccion str) ruta =
             do
                 clsInfo $ prediccion (Prediccion str)
-                            ++ "\nEs correcta?"
-                putStrLn "s/n\n"
+                          ++"\n\nEs correcta?\n"
+                          ++"s/n\n"
 
                 xs <- getLine
                 case xs of
                     "s" ->
-                        menu (Just orac) $ "Gracias por Jugar con putStr"
-                                            ++ programName
-
+                        menu (Just orac) $ "Gracias por Jugar con "
+                                           ++ programName
                     "n" -> 
                         do
                             clsInfo $ "\nPredicción errada.\n"
-                                    ++"Por favor introduzca la respuesta "
-                                    ++"que esperaba:"
+                                      ++"Por favor introduce la respuesta que\n"
+                                      ++"esperabas:"
                             pred <- getLine
 
-                            clsInfo $ "\nPor favor introduce una pregunta "
-                                    ++"que distinga la respuesta que "
-                                    ++"esperabas de la prediccion "
-                                    ++"obtenida."
-                            preg <- getLine
+                            clsInfo $ "\nPor favor introduce una pregunta que\n"
+                                    ++"distinga la respuesta que esperabas de\n"
+                                    ++"la prediccion obtenida."
+                            strPreg <- getLine
 
-                            menu    ( Just  (agregarPreg 
-                                                ( crearPregunta
-                                                    preg
-                                                    (crearPrediccion pred)
-                                                    (Prediccion str) )
-                                                orac
-                                                (reverse ruta) ) )
-                                    ("Gracias por ayudar a mejorar "
-                                    ++programName++"!")
 
+
+                            let newPred = crearPrediccion pred
+                                newPreg = crearPregunta
+                                            strPreg
+                                            newPreg
+                                            $ Prediccion str
+                                newOrac = Just $ agregarPreg
+                                                 newPreg orac
+                                                 $ reverse ruta
+
+                            menu newOrac $ "Gracias por ayudar a mejorar "
+                                                            ++programName++"!"
                     _   ->  
                         do
-                            cls
-                            info "Entrada mal formada."
+                            clsInfo "Entrada mal formada."
                             predecir' (Prediccion str) ruta
 
 
@@ -136,30 +143,31 @@ predecir (Just orac) =
                     "n" -> predecir' (negativo (Pregunta preg)) (False:ruta)
 
                     _   ->  do
-                                cls
-                                info "Entrada mal formada."
+                                clsInfo "Entrada mal formada."
                                 predecir' (Pregunta preg) ruta
 
-
+--  Función devuleve el Oraculo que se forma al agregar el segundo Oraculo al
+-- primero, en la posición especificada por la lista de Booleanos
+agregarPreg :: Oraculo -> Oraculo -> [Bool] -> Oraculo
 agregarPreg (Pregunta preg) (Prediccion pred) xs 
     | xs == [] = (Pregunta preg)
-    | otherwise = error "Esto no debería suceder.s"
+    | otherwise = error "Esto no debería suceder."
 
 agregarPreg (Pregunta preg) (Pregunta orig) (act:resto)
     | act =
         crearPregunta
-            ( pregunta (Pregunta orig) )
+            ( pregunta $ Pregunta orig )
             ( agregarPreg (Pregunta preg)
-                (positivo (Pregunta orig))
+                (positivo $ Pregunta orig)
                 resto )
             ( negativo (Pregunta orig) )
 
     | otherwise = 
         crearPregunta
-            ( pregunta (Pregunta orig) )
-            ( positivo (Pregunta orig) )
+            ( pregunta $ Pregunta orig )
+            ( positivo $ Pregunta orig )
             ( agregarPreg (Pregunta preg)
-                (negativo (Pregunta orig))
+                (negativo $ Pregunta orig)
                 resto )
 
 persistir Nothing = menu Nothing "Oráculo vacio."
@@ -181,6 +189,9 @@ cargar =
         str <- readFile filename
         menu (Just (read str)) "Oráculo cargado exitosamente."
 
+
+consPreg Nothing =
+        menu Nothing "Consulta inválida, oráculo vacío."
 
 consPreg (Just orac) =
     do
@@ -212,12 +223,12 @@ compCad orac pred1 pred2 =
                             else
                                 (x:y:xs)
             in
-                menu (Just orac) ("La pregunta crucial es: "
-                                    ++ fst (head resto) )
+                menu (Just orac) $ "La pregunta crucial es: "
+                                    ++ fst (head resto)
 
 consEst Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
 consEst (Just orac) =
-        menu (Just orac) ("(minimo,maximo,promedio)\t=\t"
-                  ++ show (obtenerEstadistica orac))
+        menu (Just orac) $ "(min,max,prom):\t=\t"
+                            ++ show (obtenerEstadistica orac)
