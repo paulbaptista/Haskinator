@@ -209,7 +209,7 @@ cargar orac =
             do
                 let
                     isOraculo x =  menu (Just x) "Oráculo cargado exitosamente."
-                    isNotOraculo x = menu Nothing "Carga fallida."
+                    isNotOraculo x = menu orac "Carga fallida."
 
                 str <- readFile filename
                 oraculoOrNot <- tryIOError (readIO str :: IO Oraculo)

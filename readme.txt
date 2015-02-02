@@ -23,9 +23,7 @@ Haskinator dispone de las siguientes opciones que se describen a continuacion
                 por el usuario.
                 
 4) Cargar. :    Cargara un oraculo apartir de un archivo indicado por el usuario
-                (Advertencia: Haskinator no verifica la existencia o integridad
-                 de dicho archivo.)
-                 
+
 5) Consultar pregunta crucial. : El usuario introducira dos predicciones y si
 								 ambas pertenecen al oraculo, se imprimira la
 								 pregunta crucial que llevaria a decidir entre 
@@ -35,3 +33,13 @@ Haskinator dispone de las siguientes opciones que se describen a continuacion
 							que el Oraculo debe hacer para llegar a una 
 							prediccion.
 
+
+Detalles de la implementacion:
+
+Para la lectura de archivo: además de verificar la existencia del mismo,
+Haskinator verifica que efectivamente se esté cargando un Oraculo; haciendo uso
+de la función readIO, que devolverá un IO Oraculo si la representación es la
+correcta o lanzará un error si no; para capturar el error usamos la funcion
+tryIOError que devuelve un either, de acuerdo a si se obtuvo un oráculo o un
+error. Por ultimo se lee un oraculo llamamos a isOraculo, en caso producir
+un error ejecutamos isNotOraculo, informándole al usuario de lo sucedido.
