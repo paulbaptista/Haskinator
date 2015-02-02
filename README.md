@@ -1,8 +1,15 @@
 # README #
 
-Compile *Haskinator.hs* usando la versión más reciente de **GHC** ejecutando: `ghc Haskinator.hs`
+Instrucciones de uso:
 
-Luego ejecute *Haskinator* en consola con : `./Haskinator`
+* Para compilar Haskinator ejecute:
+>*make*
+* Para correr Haskinator ejecute:
+>*./Haskinator*
+* Para borrar Haskinator ejecute:
+>*make clean*
+
+Recomendamos el uso de la versión más reciente de *haskell-platform* o de *ghc*, para la correcta compilación del programa.
 
 ### HASKINATOR ###
 
@@ -12,14 +19,35 @@ Luego ejecute *Haskinator* en consola con : `./Haskinator`
 
 >*Usando el poco poder que aún le quedaba, el gran Haskinator se comunica por medio de la telepatía con los profesores del Laboratorio de Lenguajes en la Universidad Simón Bolívar, para que  encomienden a sus estudiantes la creación de un programa que logre simular sus afamadas capacidades de predicción.*
 
+##Opciones del menú:##
+
+Haskinator dispone de las siguientes opciones que se describen a continuación:
+
+1. Crear un oráculo nuevo. : Borra el Oráculo actual y crea uno nuevo vacío.
+
+2. Predecir: Comienza el juego, Haskinator le hará preguntas al usuario hasta a una predicción, el usuario indicara si es correcta o no.
+			   
+3. Persistir: Guardará el oráculo actual en un archivo con el nombre indicado el usuario.
+                
+4. Cargar: Cargará un oráculo a partir de un archivo indicado por el usuario.
+                 
+5. Consultar pregunta crucial: El usuario introducirá dos predicciones y si pertenecen al oráculo, se imprimirá la crucial que llevaría a  entre predicción o la otra.
+								 
+6. Consultar Estadísticas: Mostrara el mínimo, máximo y promedio de preguntas el Oráculo debe hacer para llegar a una predicción.
+
 ***
 
 * Código fuente de nuestra implementación de **Haskinator**, que satisface los requerimientos establecidos para la entrega del mismo como primer proyecto de **Laboratorio de Lenguajes de Programación** (*CI3661*)
 
-* Version 0.1
+* Versión 1.0
 
-### Contactanos ###
+###Autores###
+
+* Jesús Parra (10-10534)
+
+* Paul Baptista (10-10056)
+
+###Contáctenos###
 
 * adolfo@ldc.usb.ve
-
 * paul@ldc.usb.ve

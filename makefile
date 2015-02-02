@@ -10,4 +10,4 @@ Oraculo :
 	$(CC) Oraculo.hs
 	
 clean :
-	rm *.hi *.o *~ Haskinator
+	rm *.hi *.o Haskinator
