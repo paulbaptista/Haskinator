@@ -40,6 +40,7 @@ menu orac str =
         putStr $ "\n\nBienvenido a: " ++ programName ++ "\n\n"
             
         putStrLn "Posee las siguientes opciones de interacción:\n"
+
         putStrLn "1) Crear un oraculo nuevo."
         putStrLn "2) Predecir."
         putStrLn "3) Persistir."
@@ -76,7 +77,7 @@ nuevoOrac =
 predecir :: Maybe Oraculo -> IO()
 predecir Nothing =
     do 
-        clsInfo $ "El oráculo está vacío, no puede hacer una predicción."
+        clsInfo $ "El oráculo está vacío, no puede hacer una predicción.\n"
                     ++"Por favor introducea la respuesta que esperabas:"
         pred <- getLine
 
@@ -121,7 +122,7 @@ predecir (Just orac) =
                                                  newPreg orac
                                                  $ reverse ruta
 
-                            menu newOrac $ "Gracias por ayudar a mejorar "
+                            menu newOrac $ "Gracias por ayudar a mejorar a "
                                                             ++programName++"!"
                     _   ->  
                         do
@@ -176,8 +177,8 @@ persistir Nothing = menu Nothing "Oráculo vacio."
 persistir (Just orac)  =
     do
         cls
-        info $ "Inserte el nombre del archivo el "
-                    ++ "que se guardará el oraculo actual:"
+        info $ "Inserte el nombre del archivo en el que "
+                ++"se guardará el oraculo actual:"
         filename <- getLine
         writeFile filename (show orac)
         menu (Just orac) "Oráculo guardado exitosamente."
@@ -188,7 +189,7 @@ cargar =
     do
         cls
         info $ "Inserte el nombre del archivo del cual "
-                    ++"se cargará el oráculo:"
+                ++"se cargará el oráculo:"
         filename <- getLine
         str <- readFile filename
         menu (Just (read str)) "Oráculo cargado exitosamente."
@@ -239,5 +240,5 @@ consEst Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
 consEst (Just orac) =
-        menu (Just orac) $ "(min,max,prom):\t=\t"
+        menu (Just orac) $ "(min,max,prom):\t"
                             ++ show (obtenerEstadistica orac)

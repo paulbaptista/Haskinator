@@ -39,14 +39,6 @@ readsOraculo ('P':'r':'e':'g':'u':'n':'t':'a':':':s) =
 readsOraculo ('P':'r':'e':'d':'i':'c':'c':'i':'o':'n':':':s) =
     [(Prediccion x, t) | (x,t) <- reads s ] 
 
--- Formas mas "bonita" que no logre hacer funcionar
-{-readsOraculo s       =  [(Pregunta (x,o1,o2),z) | (":", t) <- lex s,
-												  (x, '\n':u) <- reads t,
-													(y,v) <- lex u,
-													(o1,w) <- readsOraculo y,
-													(a,b) <- lex v,
-													(o2, z) <- readsOraculo a] 
-										++  [(Prediccion x, t) | (x,t) <- reads s ]-} 
 
 crearPrediccion :: [Char] -> Oraculo
 crearPrediccion str = Prediccion str
