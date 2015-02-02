@@ -47,6 +47,8 @@ readsOraculo ('P':'r':'e':'g':'u':'n':'t':'a':':':s) =
 readsOraculo ('P':'r':'e':'d':'i':'c':'c':'i':'o':'n':':':s) =
     [(Prediccion x, t) | (x,t) <- reads s ] 
 
+readsOraculo _ = []
+
 
 -- Funcion que recibe un string y devuelve un Oraculo del tipo Prediccion
 crearPrediccion :: [Char] -> Oraculo

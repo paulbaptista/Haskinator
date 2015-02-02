@@ -5,6 +5,9 @@
 import Oraculo
 import System.Exit
 import Data.Maybe
+import System.Directory
+import System.IO.Error
+
 
 --  Función principal del programa
 main :: IO()
@@ -60,9 +63,11 @@ menu orac str =
         xs <- getLine
         case xs of 
             "1" -> nuevoOrac
-            "2" -> predecir orac
+            "2" -> do
+                        cls
+                        predecir orac
             "3" -> persistir orac
-            "4" -> cargar
+            "4" -> cargar orac
             "5" -> consPreg orac
             "6" -> consEst orac
             "q" -> exitSuccess
@@ -94,11 +99,12 @@ predecir (Just orac) =
     where
         predecir' (Prediccion str) ruta =
             do
-                clsInfo $ prediccion (Prediccion str)
+                info $ prediccion (Prediccion str)
                           ++"\n\nEs correcta?\n"
                           ++"s/n\n"
 
                 xs <- getLine
+	
                 case xs of
                     "s" ->
                         menu (Just orac) $ "Gracias por Jugar con "
@@ -136,15 +142,18 @@ predecir (Just orac) =
 
         predecir' (Pregunta preg) ruta =
             do
-                cls
                 info $ pregunta (Pregunta preg)
                 putStrLn "s/n\n"
 
                 x <- getLine
                 case x of
-                    "s" -> predecir' (positivo (Pregunta preg)) (True:ruta)
+                    "s" -> do
+                            cls
+                            predecir' (positivo (Pregunta preg)) (True:ruta)
 
-                    "n" -> predecir' (negativo (Pregunta preg)) (False:ruta)
+                    "n" -> do
+                            cls
+                            predecir' (negativo (Pregunta preg)) (False:ruta)
 
                     _   ->  do
                                 clsInfo "Entrada mal formada."
@@ -188,15 +197,26 @@ persistir (Just orac)  =
         menu (Just orac) "Oráculo guardado exitosamente."
 
 --  Carga un Oráculo a partir de un archivo a especificar por el usuario.
-cargar :: IO()
-cargar =
+cargar :: Maybe Oraculo -> IO()
+cargar orac =
     do
         cls
         info $ "Inserte el nombre del archivo del cual "
                 ++"se cargará el oráculo:"
         filename <- getLine
-        str <- readFile filename
-        menu (Just (read str)) "Oráculo cargado exitosamente."
+	existe <- doesFileExist filename
+	if existe then
+            do
+                let
+                    isOraculo x =  menu (Just x) "Oráculo cargado exitosamente."
+                    isNotOraculo x = menu Nothing "Carga fallida."
+
+                str <- readFile filename
+                oraculoOrNot <- tryIOError (readIO str :: IO Oraculo)
+
+                either isNotOraculo isOraculo oraculoOrNot
+        else
+		  menu orac "El archivo no existe o es un directorio."
 
 --  Función que recibe dos posibles predicciones y si existen en el Oráculo
 -- devuelve la pregunta más cercana ancestro común de ambas.
