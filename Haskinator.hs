@@ -1,3 +1,7 @@
+-- Autores: 
+-- Jesus Parra 10-10534
+-- Paul Baptista 10-10056
+
 import Oraculo
 import System.Exit
 import Data.Maybe
@@ -16,7 +20,7 @@ programName = "\x1b[32m Haskinator\x1b[0m"
 cls :: IO()
 cls = putStr "\ESC[2J"
 
---  Función IO() Que imprime un String dado en color amarillo D:
+--  Función IO() Que imprime un String dado en color amarillo
 info :: [Char] -> IO() 
 info str =
     putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
@@ -30,8 +34,8 @@ clsInfo str =
 
 --  Función IO() que despliega un menu que informa al usuario de las opciones 
 -- que tiene disponibles para interactuar con el programa.
---  Recibe como parametros un Oraculo y un String. El primero para usarlo como 
--- ser usado como tal y el segundo para ser impreso como mensaje informativo.
+--  Recibe como parametros un Oraculo y un String. El primero para usarlo 
+-- como tal y el segundo para ser impreso como mensaje informativo.
 menu :: (Maybe Oraculo) -> [Char] -> IO()
 menu orac str =
     do
