@@ -76,12 +76,12 @@ programa.
 
 ###Ingreso de datos:###
 
-Por favor evite usar comillas dobles (* " *) al ingresar predicciones o
+Por favor evite usar comillas dobles ( *" "* ) al ingresar predicciones o
 preguntas a **Haskinator**, debido a que al guardar el *Oraculo* en un archivo
 la representación del mismo contendré dichas comillas y **Haskinator** no podra
 luego cargarlo de nuevo, pues presentará errores a la hora de parsear los
-Strings. En su lugar puede usar comillas simples (* ' *) o comillas circunflejas
-(* « » *).
+Strings. En su lugar puede usar comillas simples ( *' '* ) o comillas circunflejas
+( *« »* ).
 Esperamos ofrecerle proximamente ofrecer un fix a este problema.
 
 ***
