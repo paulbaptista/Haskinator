@@ -10,6 +10,12 @@ Para compilar Haskinator ejecute : 'make'
 Para ejecutar Haskinator ejecute : './Haskinator'
 Para borrar Haskinator ejecute : 'make clean'
 
+Para crear la documentación ejecute: 'make docs'
+Para borrar la documentación ejecute: 'make cleandocs'
+
+Para compilar Haskinator y crear la documentación ejecute: 'make all'
+Para borrar la documentación y binarios creados ejecute: 'make cleanall'
+
 Opciones del menu:
 Haskinator dispone de las siguientes opciones que se describen a continuacion
 

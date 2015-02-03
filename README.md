@@ -9,6 +9,17 @@ Instrucciones de uso:
 * Para borrar **Haskinator** ejecute:
 >`make clean`
 
+* Para crear la documentación ejecute:
+>`make docs`
+* Para borrar la documentación ejecute:
+> `make cleandocs`
+
+* Para compilar Haskinator y crear la documentación ejecute:
+>`make all`
+* Para eliminar la documentación y binarios creados ejecute:
+>`make cleanall`
+
+
 Recomendamos el uso de la versión más reciente de *haskell-platform* o de *ghc*,
 para la correcta compilación del programa.
 
