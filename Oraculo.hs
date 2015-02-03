@@ -11,7 +11,7 @@
 -- 
 -- <<http://ldc.usb.ve/~10-10056/Lamp.jpg>>
 --
--- Derechos de la imágen pertenecientes a Disney®.
+-- Derechos de la imágen pertenecientes a www.gimmal.com.
 -----------------------------------------------------------------------------
 
 
