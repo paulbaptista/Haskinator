@@ -2,12 +2,29 @@
 # Jesus Parra 10-10534
 # Paul Baptista 10-10056
 
-CC=ghc
+HC = ghc
+DC = haddock -h -o docs
+
 Haskinator : Oraculo
-	$(CC) Haskinator.hs
+	$(HC) Haskinator.hs
 
 Oraculo : 
-	$(CC) Oraculo.hs
+	$(HC) Oraculo.hs
+
+docs :
+	$(DC) *.hs
+
+all : Haskinator Oraculo docs
+
+
 	
+cleandocs :
+	rm -r docs
+
 clean :
 	rm *.hi *.o Haskinator
+
+cleanall : clean cleandocs
+
+.PHONY : clean cleandocs
+

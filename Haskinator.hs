@@ -1,6 +1,19 @@
--- Autores: 
--- Jesus Parra 10-10534
--- Paul Baptista 10-10056
+-----------------------------------------------------------------------------
+-- |
+-- Modulo       :   Haskinator.hs
+--
+-- Autores      :   Adolfo Parra (10-10534),
+--                  Paul Baptista (10-10056)
+--
+-- Licencia     :   Apache License 2.0
+--
+-- Implementation de Haskinator.
+-- 
+-----------------------------------------------------------------------------
+
+
+module Main where
+
 
 import Oraculo
 import System.Exit (exitSuccess)
@@ -9,7 +22,9 @@ import System.Directory (doesFileExist)
 import System.IO.Error (tryIOError)
 
 
---  Función principal del programa
+-- | Función principal del programa.
+--  
+-- Hace una llamada al menú principal con 'Nothing' como parámetro.
 main :: IO()
 main =
     do
@@ -17,46 +32,59 @@ main =
         menu Nothing ""
 
 
---  Nombre del programa.
+-- | Imprime subrayado el nombre del programa en color verde.
 programName = "\x1b[4;32mHaskinator\x1b[0m"
 
 
---  Función IO() que hace clean de la pantalla
+-- | Función de'IO' que hace clean de la pantalla.
 cls :: IO()
 cls = putStr "\ESC[2J"
 
 
---  Función IO() Que imprime un String dado en color amarillo
-info :: [Char] -> IO() 
+-- | Función de 'IO' que imprime el String recibido en color amarillo.
+info ::
+    [Char]      -- ^ String a imprimir.
+    -> IO() 
 info str =
     putStrLn $ "\n\x1b[1;33m" ++ str ++ "\x1b[0m"
 
 
---  Función IO() Que imprime un String dado en color Cyan
-info2 :: [Char] -> IO() 
+-- | Función de 'IO' que imprime el String recibido en color cyan.
+info2 ::
+    [Char]      -- ^ String a imprimir.
+    -> IO() 
 info2 str =
     putStrLn $ "\n\x1b[36m" ++ str ++ "\x1b[0m"
 
 
---  Función IO() Que imprime un String dado en color Rojo
-info3 :: [Char] -> IO() 
+-- | Función de 'IO' que imprime el String recibido en color rojo.
+info3 ::
+    [Char]      -- ^ String a imprimir.
+    -> IO() 
 info3 str =
     putStrLn $ "\n\x1b[31m" ++ str ++ "\x1b[0m"
 
 
---  Función IO() que limpia la pantalla y luego imprime el String recibido
-clsInfo :: [Char] -> IO()
+-- | Función de IO que limpia la pantalla y luego imprime el String recibido.
+clsInfo ::
+    [Char]      -- ^ String a imprimir.
+    -> IO()
 clsInfo str =
     do
         cls
         info str
 
 
---  Función IO() que despliega un menu que informa al usuario de las opciones 
--- que tiene disponibles para interactuar con el programa.
---  Recibe como parametros un Oraculo y un String. El primero para usarlo 
--- como tal y el segundo para ser impreso como mensaje informativo.
-menu :: (Maybe Oraculo) -> [Char] -> IO()
+-- | Función de 'IO' que despliega un menu que informa al usuario de las
+-- opciones que tiene disponibles para interactuar con el programa.
+--
+-- Recibe como parametros un Oraculo y un String. El primero para usarlo como
+-- tal y el segundo para ser impreso como mensaje informativo.
+menu ::
+    (Maybe Oraculo) -- ^ @Maybe 'Oraculo'@, que ha de poseer el 'Oraculo'
+                    --  actual.
+    -> [Char]       -- ^ Mensaje informativo.
+    -> IO()
 menu orac str =
     do
         cls
@@ -91,18 +119,23 @@ menu orac str =
             _   -> menu orac "Entrada mal formada."
 
 
---  Función que lanza el menú de interacción con un Oráculo "vacio".
+-- | Función que lanza el menú de interacción con un 'Oraculo' "vacio"
+-- ('Nothing').
 nuevoOrac :: IO()
 nuevoOrac =
     do
         menu Nothing "Nuevo Oraculo creado, actualmente vacio."
 
 
---  Función que interactua con el usuario usando el Oráculo recibido para hacer
+-- | Función que interactua con el usuario usando el Oráculo recibido para hacer
 -- una predicción.
---  Si el Oráculo recibido no posee la predicción, se pide información al 
+--
+--  Si el 'Oraculo' recibido no posee la predicción, se pide información al 
 -- usuario para agregarla al mismo.
-predecir :: Maybe Oraculo -> IO()
+predecir ::
+    Maybe Oraculo   -- ^ @Maybe 'Oraculo'@ del cual se intentará hacer la
+                    -- predicción.
+    -> IO()
 predecir Nothing =
     do 
         clsInfo $ "El oráculo está vacío, no puede hacer una predicción.\n"
@@ -179,9 +212,16 @@ predecir (Just orac) =
                                 predecir' (Pregunta preg) ruta
 
 
---  Función devuleve el Oraculo que se forma al agregar el segundo Oraculo al
--- primero, en la posición especificada por la lista de Booleanos
-agregarPreg :: Oraculo -> Oraculo -> [Bool] -> Oraculo
+-- | Función que devuleve el Oraculo que se forma al agregar un segundo Oraculo
+-- al primero, en la posición representada por la lista de Booleanos recibida
+-- como segundo argumento.
+agregarPreg ::
+    Oraculo         -- ^ 'Oraculo' base.
+    -> Oraculo      -- ^ 'Oraculo' a agregar.
+    -> [Bool]       -- ^ Lista de 'Bool' que representa la posición en la que se
+                    -- hará la agregación.
+    -> Oraculo      -- ^ 'Oraculo' formado.
+
 agregarPreg (Pregunta preg) (Prediccion pred) xs 
     | xs == [] = (Pregunta preg)
     | otherwise = error "Esto no debería suceder."
@@ -204,9 +244,12 @@ agregarPreg (Pregunta preg) (Pregunta orig) (act:resto)
                 resto )
 
 
---  Guarda el estado actual del Oráculo en un archivo a especificar por el
--- usuario.
-persistir :: Maybe Oraculo -> IO()
+-- | Función de 'IO' que escribe el estado actual del 'Oraculo' recibido como
+-- primer parámetro en el archivo de cuyo nombre recibe como 'String' de la
+-- entrada estándar.
+persistir ::
+    Maybe Oraculo       -- ^ @Maybe 'Oraculo'@ a guardar.
+    -> IO()
 persistir Nothing = menu Nothing "Oráculo vacio."
 persistir (Just orac)  =
     do
@@ -220,8 +263,13 @@ persistir (Just orac)  =
         menu (Just orac) "Oráculo guardado exitosamente."
 
 
---  Carga un Oráculo a partir de un archivo a especificar por el usuario.
-cargar :: Maybe Oraculo -> IO()
+-- | Función de 'IO' que escribe el estado actual del 'Oraculo' recibido como
+-- primer parámetro en el archivo de cuyo nombre recibe como 'String' de la
+-- entrada estándar.
+cargar ::
+    Maybe Oraculo       -- ^ @Maybe 'Oraculo'@ que ha de contener el 'Oraculo' a
+                        -- cargar.
+     -> IO()
 cargar orac =
     do
         cls
@@ -243,9 +291,13 @@ cargar orac =
 		  menu orac "El archivo no existe o es un directorio."
 
 
---  Función que recibe dos posibles predicciones y si existen en el Oráculo
--- devuelve la pregunta más cercana ancestro común de ambas.
-consPreg :: Maybe Oraculo -> IO()
+-- | Función que recibe un 'Oraculo' y recibe de la entrada estándar dos
+-- 'String' que representan predicciones, si estas existen en el 'Oraculo'
+-- devuelve la pregunta común más cercana a ambas.
+consPreg ::
+    Maybe Oraculo       -- ^ @Maybe 'Oraculo'@ que ha de poseer el 'Oraculo' a
+                        -- consultar.
+    -> IO()
 consPreg Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
@@ -284,9 +336,12 @@ consPreg (Just orac) =
                                                 ++ fst (head resto)
 
 
---  Pregunta que a partir del Oráculo recibido, imprime las estadísticas del
--- mismo
-consEst :: Maybe Oraculo -> IO()
+-- | Función que recibe @Maybe Oraculo@ y si este no es Nothing imprime las
+-- las estadísticas del mismo, si no notifica la invalidez de la consulta.
+consEst :: 
+    Maybe Oraculo   -- ^ @Maybe 'Oraculo'@ que ha de contener el 'Oraculo' a
+                    -- ^ consultar.
+    -> IO()
 consEst Nothing =
         menu Nothing "Consulta inválida, oráculo vacío."
 
