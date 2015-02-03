@@ -37,7 +37,6 @@ instance Read Oraculo where
   
 -- Funcion usada por la instancia de Read de Oraculo
 readsOraculo :: ReadS Oraculo
-
 readsOraculo ('P':'r':'e':'g':'u':'n':'t':'a':':':s) = 
     [ (Pregunta (x,o1,o2),z) |  (x, '\n':t) <- reads s,
 								(o1, '\n':u) <- readsOraculo t,
