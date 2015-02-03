@@ -9,15 +9,31 @@ Instrucciones de uso:
 * Para borrar Haskinator ejecute:
 >*make clean*
 
-Recomendamos el uso de la versión más reciente de *haskell-platform* o de *ghc*, para la correcta compilación del programa.
+Recomendamos el uso de la versión más reciente de *haskell-platform* o de *ghc*,
+para la correcta compilación del programa.
 
 ### HASKINATOR ###
 
->*En las profundidades del bosque de los mil y un monads, en la misteriosa cuna del gran río Curry, habita entre paredes de piedra el poderoso oráculo Haskinator. Con su vasto conocimiento, Haskinator es capaz de adivinar los pensamientos de aquellos que lo visitan, sin más que unas pocas y precisas preguntas. El misterioso oráculo se ha hecho conocido y afamado por su gran poder, sorprendiendo y maravillando a cada viajero con la suerte de presenciarlo.*
+>*En las profundidades del bosque de los mil y un monads, en la misteriosa cuna
+del gran río Curry, habita entre paredes de piedra el poderoso oráculo
+Haskinator. Con su vasto conocimiento, Haskinator es capaz de adivinar los
+pensamientos de aquellos que lo visitan, sin más que unas pocas y precisas
+preguntas. El misterioso oráculo se ha hecho conocido y afamado por su gran
+poder, sorprendiendo y maravillando a cada viajero con la suerte de
+presenciarlo.*
 
->*Sin embargo, Haskinator presiente que sus poderes se desvanecen con el tiempo y teme defraudar a quienes expectantes desean ser maravillados por sus predicciones. Con premura comienza a indagar maneras de conservar su preciado don antes que se le escape por completo. Entonces recuerda la historia de uno de sus tantos visitantes. El visitante, agradecido y sorprendido con el oráculo, le había contado sobre un grupo de talentosos estudiantes que aprendían a programar en Haskell, el lenguaje de dioses y oráculos de eras pasadas.*
+>*Sin embargo, Haskinator presiente que sus poderes se desvanecen con el tiempo
+y teme defraudar a quienes expectantes desean ser maravillados por sus
+predicciones. Con premura comienza a indagar maneras de conservar su preciado
+don antes que se le escape por completo. Entonces recuerda la historia de uno de
+sus tantos visitantes. El visitante, agradecido y sorprendido con el oráculo, le
+había contado sobre un grupo de talentosos estudiantes que aprendían a programar
+en Haskell, el lenguaje de dioses y oráculos de eras pasadas.*
 
->*Usando el poco poder que aún le quedaba, el gran Haskinator se comunica por medio de la telepatía con los profesores del Laboratorio de Lenguajes en la Universidad Simón Bolívar, para que  encomienden a sus estudiantes la creación de un programa que logre simular sus afamadas capacidades de predicción.*
+>*Usando el poco poder que aún le quedaba, el gran Haskinator se comunica por
+medio de la telepatía con los profesores del Laboratorio de Lenguajes en la
+Universidad Simón Bolívar, para que  encomienden a sus estudiantes la creación
+de un programa que logre simular sus afamadas capacidades de predicción.*
 
 ##Opciones del menú:##
 
@@ -25,19 +41,26 @@ Haskinator dispone de las siguientes opciones que se describen a continuación:
 
 1. Crear un oráculo nuevo. : Borra el Oráculo actual y crea uno nuevo vacío.
 
-2. Predecir: Comienza el juego, Haskinator le hará preguntas al usuario hasta a una predicción, el usuario indicara si es correcta o no.
+2. Predecir: Comienza el juego, Haskinator le hará preguntas al usuario hasta a
+una predicción, el usuario indicara si es correcta o no.
 			   
-3. Persistir: Guardará el oráculo actual en un archivo con el nombre indicado el usuario.
+3. Persistir: Guardará el oráculo actual en un archivo con el nombre indicado el
+usuario.
                 
 4. Cargar: Cargará un oráculo a partir de un archivo indicado por el usuario.
                  
-5. Consultar pregunta crucial: El usuario introducirá dos predicciones y si pertenecen al oráculo, se imprimirá la crucial que llevaría a  entre predicción o la otra.
+5. Consultar pregunta crucial: El usuario introducirá dos predicciones y si
+pertenecen al oráculo, se imprimirá la crucial que llevaría a  entre predicción
+o la otra.
 								 
-6. Consultar Estadísticas: Mostrara el mínimo, máximo y promedio de preguntas el Oráculo debe hacer para llegar a una predicción.
+6. Consultar Estadísticas: Mostrara el mínimo, máximo y promedio de preguntas el
+Oráculo debe hacer para llegar a una predicción.
 
 ***
 
-* Código fuente de nuestra implementación de **Haskinator**, que satisface los requerimientos establecidos para la entrega del mismo como primer proyecto de **Laboratorio de Lenguajes de Programación** (*CI3661*)
+* Código fuente de nuestra implementación de **Haskinator**, que satisface los
+requerimientos establecidos para la entrega del mismo como primer proyecto de
+**Laboratorio de Lenguajes de Programación** (*CI3661*)
 
 * Versión 1.0
 
