@@ -9,7 +9,7 @@
 --
 -- Implementation de Haskinator.
 -- 
--- <<../aladdinGenie.jpg>>
+-- <<http://ldc.usb.ve/~10-10056/aladdinGenie.jpg>>
 --
 -- Derechos de la imágen pertenecientes a Disney®
 -----------------------------------------------------------------------------
