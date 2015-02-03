@@ -9,6 +9,9 @@
 --
 -- Implementation para Haskinator.
 -- 
+-- <<../Lamp.jpg>>
+--
+-- Derechos de la imágen pertenecientes a Disney®.
 -----------------------------------------------------------------------------
 
 

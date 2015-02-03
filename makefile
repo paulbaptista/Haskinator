@@ -26,5 +26,5 @@ clean :
 
 cleanall : clean cleandocs
 
-.PHONY : clean cleandocs
+.PHONY : clean cleandocs cleanall
 

@@ -2,13 +2,16 @@
 -- |
 -- Modulo       :   Haskinator.hs
 --
--- Autores      :   Adolfo Parra (10-10534),
+-- Autores     :   Adolfo Parra (10-10534),
 --                  Paul Baptista (10-10056)
 --
 -- Licencia     :   Apache License 2.0
 --
 -- Implementation de Haskinator.
 -- 
+-- <<../aladdinGenie.jpg>>
+--
+-- Derechos de la imágen pertenecientes a Disney®
 -----------------------------------------------------------------------------
 
 
