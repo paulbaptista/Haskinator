@@ -36,16 +36,24 @@ Haskinator dispone de las siguientes opciones que se describen a continuacion
 
 Detalles de la implementacion:
 
-Para la lectura de archivo: además de verificar la existencia del mismo,
-Haskinator verifica que efectivamente se esté cargando un Oraculo; haciendo uso
-de la función readIO, que devolverá un IO Oraculo si la representación es la
-correcta o lanzará un error si no; para capturar el error usamos la funcion
-tryIOError que devuelve un either, de acuerdo a si se obtuvo un oráculo o un
-error. Por ultimo se lee un oraculo llamamos a isOraculo, en caso producir
-un error ejecutamos isNotOraculo, informándole al usuario de lo sucedido.
+-Para la lectura del archivo:
+   Además de verificar la existencia del mismo, Haskinator verifica que
+efectivamente se esté cargando un Oraculo; haciendo uso de la función "readIO",
+que ha de devolver un "IO Oraculo", si la representación es la correcta, o
+lanzará un error si no lo es; para capturar el error usamos la funcion
+"tryIOError" que devuelve un "Either IOError Oraculo".
+   Por lo tanto, el flujo de ejecución de la lectura consiste en: pedir al
+usuario el nombre del archivo a cargar, intentar hacer la carga a partir de los
+datos obtenidos del archivo en cuestión, y entonces verificar si se hizo la
+lectura o se produjo un error, procediendo a informarle al usuario de lo
+sucedido y continuando así, de modo robusto, con la ejecución adecuada del
+programa.
 
-Ingreso de datos: Por favor evite usar comillas dobles ( " ) al ingresar 
-predicciones o preguntas a Haskinator, debido a que al guardar el Oraculo en el
-archivo contendra dichas comillas y Haskinator no podra volver a cargarlo debido
-a que no sabrá cual es el string correspondiente. En su lugar puede usar
-comillas simples (') o las comillas circunflejas  ( « » ).
+-Ingreso de datos:
+    Por favor evite usar comillas dobles ( " ) al ingresar predicciones o
+preguntas a Haskinator, debido a que al guardar el "Oraculo" en un archivo
+la representación del mismo contendré dichas comillas y Haskinator no podra
+luego cargarlo de nuevo, pues presentará errores a la hora de parsear los
+Strings. En su lugar puede usar comillas simples (') o comillas circunflejas
+( « » ).
+    Esperamos ofrecerle proximamente ofrecer un fix a este problema.
