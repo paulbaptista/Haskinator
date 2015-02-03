@@ -17,9 +17,8 @@ module Oraculo
     where 
 
 import Data.Maybe
-import System.IO
-import Control.Applicative
-import Control.Monad
+import Control.Applicative ((<|>))
+import Control.Monad (liftM)
 
 data Oraculo = Prediccion [Char] | Pregunta ([Char],Oraculo,Oraculo)
 
