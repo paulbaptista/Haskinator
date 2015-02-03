@@ -76,6 +76,8 @@ readsOraculo ('P':'r':'e':'d':'i':'c':'c':'i':'o':'n':':':s) =
 
 readsOraculo ('\n':ls) = readsOraculo ls
 
+readsOraculo ('\t':ls) = readsOraculo ls
+
 readsOraculo (' ':ls) = readsOraculo ls
 
 readsOraculo _ = []
