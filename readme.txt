@@ -43,3 +43,9 @@ correcta o lanzará un error si no; para capturar el error usamos la funcion
 tryIOError que devuelve un either, de acuerdo a si se obtuvo un oráculo o un
 error. Por ultimo se lee un oraculo llamamos a isOraculo, en caso producir
 un error ejecutamos isNotOraculo, informándole al usuario de lo sucedido.
+
+Ingreso de datos: Por favor evite usar comillas dobles ( " ) al ingresar 
+predicciones o preguntas a Haskinator, debido a que al guardar el Oraculo en el
+archivo contendra dichas comillas y Haskinator no podra volver a cargarlo debido
+a que no sabrá cual es el string correspondiente. En su lugar puede usar
+comillas simples (') o las comillas circunflejas  ( « » ).
